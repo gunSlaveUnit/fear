@@ -17,6 +17,8 @@ namespace fear {
 
         void run();
 
+        void terminate();
+
     private:
         void _init_window();
 

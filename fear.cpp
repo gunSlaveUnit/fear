@@ -17,4 +17,9 @@ namespace fear {
     void Fear::run() {
 
     }
+
+    void Fear::terminate() {
+        glfwDestroyWindow(_window);
+        glfwTerminate();
+    }
 }

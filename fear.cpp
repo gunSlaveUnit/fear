@@ -15,7 +15,9 @@ namespace fear {
     }
 
     void Fear::run() {
-
+        while (!glfwWindowShouldClose(_window)) {
+            glfwPollEvents();
+        }
     }
 
     void Fear::terminate() {

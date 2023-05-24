@@ -1,6 +1,6 @@
-#include <iostream>
+#include "fear.h"
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
-    return 0;
+    fear::Fear game;
+    game.Run();
 }

@@ -3,4 +3,4 @@ project(fear)
 
 set(CMAKE_CXX_STANDARD 23)
 
-add_executable(fear main.cpp)
+add_executable(fear main.cpp fear.cpp fear.h)

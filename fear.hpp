@@ -14,7 +14,13 @@ namespace fear {
 
     public:
         void init();
+
         void run();
+
+    private:
+        void _init_window();
+
+        GLFWwindow *_window;
     };
 }
 

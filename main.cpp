@@ -1,6 +1,6 @@
-#include "fear.h"
+#include "fear.hpp"
 
 int main() {
     fear::Fear game;
-    game.Run();
+    game.run();
 }

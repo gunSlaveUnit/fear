@@ -15,7 +15,7 @@ set(EXTERNAL_LIBS_DIR ${PROJECT_SOURCE_DIR}/external)
 
 add_executable(${PROJECT_NAME}
     main.cpp
-    fear.cpp fear.h
+    fear.cpp fear.hpp
 )
 
 add_subdirectory(${EXTERNAL_LIBS_DIR}/GLFW)

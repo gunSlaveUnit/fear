@@ -11,7 +11,7 @@ namespace fear {
     }
 
     void Fear::_init_window() {
-        _window = glfwCreateWindow(1000, 500, "FEAR", nullptr, nullptr);
+        _window = glfwCreateWindow(800, 400, "FEAR", nullptr, nullptr);
     }
 
     void Fear::run() {

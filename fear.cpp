@@ -40,7 +40,7 @@ namespace fear {
         const char **glfw_extension_names = glfwGetRequiredInstanceExtensions(&glfw_extensions_count);
         std::cout << "GLFW required instance extensions - " << glfw_extensions_count << ":\n";
         for (ufast32 i = 0; i < glfw_extensions_count; ++i)
-            std::cout << "\t- " << glfw_extension_names[i] << "\n";
+            std::cout << "\t- " << glfw_extension_names[i] << ";\n";
 
         VkInstanceCreateInfo instance_create_info{};
         instance_create_info.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
@@ -66,16 +66,26 @@ namespace fear {
         std::vector<VkLayerProperties> available_layers(validation_layer_count);
         vkEnumerateInstanceLayerProperties(&validation_layer_count, available_layers.data());
 
+        std::cout << "Available Vulkan validation layers - " << validation_layer_count << ":\n";
+        for (const auto &available_layer: available_layers)
+            std::cout << "\t- " << available_layer.layerName << ";\n";
+
+        std::cout << "Requested Vulkan validation layers - " << VALIDATION_LAYERS.size() << ":\n";
+
         for (const char *layer_name: VALIDATION_LAYERS) {
             auto is_layer_found{false};
 
             for (const auto &available_layer: available_layers)
                 if (!strcmp(layer_name, available_layer.layerName)) {
                     is_layer_found = true;
+                    std::cout << "\t- " << layer_name << " was found;\n";
                     break;
                 }
 
-            if (!is_layer_found) return false;
+            if (!is_layer_found) {
+                std::clog << "ERROR: Vulkan validation layer" << layer_name << " wasn't found.\n";
+                return false;
+            }
         }
 
         return true;

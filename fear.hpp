@@ -8,8 +8,11 @@
 #define GLFW_INCLUDE_VULKAN
 
 #include <iostream>
+#include <vector>
 
 #include <GLFW/glfw3.h>
+
+#include "types.h"
 
 namespace fear {
     class Fear {
@@ -26,8 +29,11 @@ namespace fear {
 
         void _create_instance();
 
+        void _pick_physical_device();
+
         GLFWwindow *_window;
         VkInstance _instance;
+        VkPhysicalDevice _physical_device;
     };
 }
 

@@ -9,6 +9,7 @@ namespace fear {
         glfwInit();
         _init_window();
         _create_instance();
+        _pick_physical_device();
     }
 
     void Fear::_init_window() {
@@ -47,6 +48,20 @@ namespace fear {
             std::cout << "A Vulkan instance was created.\n";
         else
             std::clog << "ERROR: Vulkan can't create an instance.\n";
+    }
+
+    void Fear::_pick_physical_device() {
+        ufast32 physical_devices_count{0};
+        vkEnumeratePhysicalDevices(_instance, &physical_devices_count, nullptr);
+
+        std::vector<VkPhysicalDevice> physical_devices{physical_devices_count};
+        vkEnumeratePhysicalDevices(_instance, &physical_devices_count, physical_devices.data());
+
+        std::cout << "Number of found physical devices: " << physical_devices_count << ".\n";
+        // TODO: I want to display a list of devices
+
+        // TODO: We need a normal choice of device based on performance, features and other things
+        _physical_device = physical_devices[0];
     }
 
     void Fear::run() {

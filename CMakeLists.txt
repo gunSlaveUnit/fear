@@ -14,9 +14,10 @@ set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 set(EXTERNAL_LIBS_DIR ${PROJECT_SOURCE_DIR}/external)
 
 add_executable(${PROJECT_NAME}
-    main.cpp
-    fear.cpp fear.hpp
-)
+        main.cpp
+        fear.cpp fear.hpp
+        types.h
+        )
 
 add_subdirectory(${EXTERNAL_LIBS_DIR}/GLFW)
 target_link_libraries(${PROJECT_NAME} glfw)
@@ -27,4 +28,4 @@ find_package(Vulkan REQUIRED)
 if (VULKAN_FOUND)
     target_link_libraries(${PROJECT_NAME} ${Vulkan_LIBRARIES})
     target_include_directories(${PROJECT_NAME} PUBLIC ${Vulkan_INCLUDE_DIR})
-endif()
+endif ()

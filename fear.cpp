@@ -8,6 +8,7 @@ namespace fear {
     void Fear::init() {
         glfwInit();
         _init_window();
+        _create_instance();
     }
 
     void Fear::_init_window() {
@@ -16,6 +17,32 @@ namespace fear {
         _window = glfwCreateWindow(800, 400, "FEAR", nullptr, nullptr);
         if (!_window)
             std::clog << "ERROR: GLFW can't create window\n";
+    }
+
+    void Fear::_create_instance() {
+        VkApplicationInfo application_info{
+                .sType = VK_STRUCTURE_TYPE_APPLICATION_INFO,
+                .pNext = nullptr,
+                .pApplicationName = "FEAR",
+                .applicationVersion = VK_MAKE_API_VERSION(0, 0, 1, 0),
+                .pEngineName = "RAYNEVIR",
+                .engineVersion = VK_MAKE_API_VERSION(0, 0, 1, 0),
+                .apiVersion = VK_VERSION_1_3
+        };
+
+        VkInstanceCreateInfo instance_create_info{
+                .sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO,
+                .pNext = nullptr,
+                .flags = 0,
+                .pApplicationInfo = &application_info,
+                .enabledLayerCount = 0,
+                .ppEnabledLayerNames = nullptr,
+                .enabledExtensionCount = 0,
+                .ppEnabledExtensionNames = nullptr,
+        };
+
+        if (vkCreateInstance(&instance_create_info, nullptr, &_instance) != VK_SUCCESS)
+            std::clog << "ERROR: Vulkan can't create instance\n";
     }
 
     void Fear::run() {

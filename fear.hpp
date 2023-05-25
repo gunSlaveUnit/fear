@@ -24,7 +24,10 @@ namespace fear {
     private:
         void _init_window();
 
+        void _create_instance();
+
         GLFWwindow *_window;
+        VkInstance _instance;
     };
 }
 

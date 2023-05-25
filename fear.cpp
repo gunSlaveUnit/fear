@@ -23,6 +23,9 @@ namespace fear {
     }
 
     void Fear::_create_instance() {
+        if (ENABLE_VALIDATION_LAYERS && !_check_validation_layers_support())
+            std::clog << "ERROR: Vulkan validation layers were requested but not available.\n";
+
         VkApplicationInfo application_info{
                 .sType = VK_STRUCTURE_TYPE_APPLICATION_INFO,
                 .pNext = nullptr,
@@ -51,6 +54,28 @@ namespace fear {
             std::cout << "A Vulkan instance was created.\n";
         else
             std::clog << "ERROR: Vulkan can't create an instance.\n";
+    }
+
+    bool Fear::_check_validation_layers_support() {
+        ufast32 validation_layer_count;
+        vkEnumerateInstanceLayerProperties(&validation_layer_count, nullptr);
+
+        std::vector<VkLayerProperties> available_layers(validation_layer_count);
+        vkEnumerateInstanceLayerProperties(&validation_layer_count, available_layers.data());
+
+        for (const char *layer_name: VALIDATION_LAYERS) {
+            auto is_layer_found{false};
+
+            for (const auto &available_layer: available_layers)
+                if (!strcmp(layer_name, available_layer.layerName)) {
+                    is_layer_found = true;
+                    break;
+                }
+
+            if (!is_layer_found) return false;
+        }
+
+        return true;
     }
 
     void Fear::_pick_physical_device() {

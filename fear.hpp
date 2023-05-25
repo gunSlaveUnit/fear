@@ -9,6 +9,7 @@
 
 #include <iostream>
 #include <vector>
+#include <cstring>
 
 #include <GLFW/glfw3.h>
 
@@ -28,6 +29,8 @@ namespace fear {
         void _init_window();
 
         void _create_instance();
+
+        bool _check_validation_layers_support();
 
         void _pick_physical_device();
 

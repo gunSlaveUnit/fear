@@ -36,16 +36,16 @@ namespace fear {
         ufast32 glfw_extensions_count{0};
         const char **glfw_extension_names = glfwGetRequiredInstanceExtensions(&glfw_extensions_count);
 
-        VkInstanceCreateInfo instance_create_info{
-                .sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO,
-                .pNext = nullptr,
-                .flags = 0,
-                .pApplicationInfo = &application_info,
-                .enabledLayerCount = 0,
-                .ppEnabledLayerNames = nullptr,
-                .enabledExtensionCount = glfw_extensions_count,
-                .ppEnabledExtensionNames = glfw_extension_names,
-        };
+        VkInstanceCreateInfo instance_create_info{};
+        instance_create_info.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
+        instance_create_info.pApplicationInfo = &application_info;
+        instance_create_info.enabledExtensionCount = glfw_extensions_count;
+        instance_create_info.ppEnabledExtensionNames = glfw_extension_names;
+
+        if (ENABLE_VALIDATION_LAYERS) {
+            instance_create_info.enabledLayerCount = static_cast<ufast32>(VALIDATION_LAYERS.size());
+            instance_create_info.ppEnabledLayerNames = VALIDATION_LAYERS.data();
+        }
 
         if (vkCreateInstance(&instance_create_info, nullptr, &_instance) == VK_SUCCESS)
             std::cout << "A Vulkan instance was created.\n";

@@ -33,6 +33,9 @@ namespace fear {
                 .apiVersion = VK_VERSION_1_3
         };
 
+        ufast32 glfw_extensions_count{0};
+        const char **glfw_extension_names = glfwGetRequiredInstanceExtensions(&glfw_extensions_count);
+
         VkInstanceCreateInfo instance_create_info{
                 .sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO,
                 .pNext = nullptr,
@@ -40,8 +43,8 @@ namespace fear {
                 .pApplicationInfo = &application_info,
                 .enabledLayerCount = 0,
                 .ppEnabledLayerNames = nullptr,
-                .enabledExtensionCount = 0,
-                .ppEnabledExtensionNames = nullptr,
+                .enabledExtensionCount = glfw_extensions_count,
+                .ppEnabledExtensionNames = glfw_extension_names,
         };
 
         if (vkCreateInstance(&instance_create_info, nullptr, &_instance) == VK_SUCCESS)

@@ -11,6 +11,8 @@ namespace fear {
     }
 
     void Fear::_init_window() {
+        glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+
         _window = glfwCreateWindow(800, 400, "FEAR", nullptr, nullptr);
     }
 

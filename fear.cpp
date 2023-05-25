@@ -38,6 +38,9 @@ namespace fear {
 
         ufast32 glfw_extensions_count{0};
         const char **glfw_extension_names = glfwGetRequiredInstanceExtensions(&glfw_extensions_count);
+        std::cout << "GLFW required instance extensions - " << glfw_extensions_count << ":\n";
+        for (ufast32 i = 0; i < glfw_extensions_count; ++i)
+            std::cout << "\t- " << glfw_extension_names[i] << "\n";
 
         VkInstanceCreateInfo instance_create_info{};
         instance_create_info.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;

@@ -15,8 +15,10 @@ namespace fear {
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 
         _window = glfwCreateWindow(800, 400, "FEAR", nullptr, nullptr);
-        if (!_window)
-            std::clog << "ERROR: GLFW can't create window\n";
+        if (_window)
+            std::cout << "A GLFW window was created.\n";
+        else
+            std::clog << "ERROR: GLFW can't create a window.\n";
     }
 
     void Fear::_create_instance() {

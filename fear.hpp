@@ -31,6 +31,16 @@ namespace fear {
 
         void _pick_physical_device();
 
+#ifdef NDEBUG
+        const bool ENABLE_VALIDATION_LAYERS = false;
+#else
+        const bool ENABLE_VALIDATION_LAYERS = true;
+#endif
+        const std::vector<const char *> VALIDATION_LAYERS = {
+                "VK_LAYER_KHRONOS_validation",
+                "VK_LAYER_LUNARG_monitor"
+        };
+
         GLFWwindow *_window;
         VkInstance _instance;
         VkPhysicalDevice _physical_device;

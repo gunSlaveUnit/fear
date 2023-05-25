@@ -56,6 +56,7 @@ namespace fear {
     }
 
     void Fear::terminate() {
+        vkDestroyInstance(_instance, nullptr);
         glfwDestroyWindow(_window);
         glfwTerminate();
     }

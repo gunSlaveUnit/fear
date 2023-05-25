@@ -43,8 +43,10 @@ namespace fear {
                 .ppEnabledExtensionNames = nullptr,
         };
 
-        if (vkCreateInstance(&instance_create_info, nullptr, &_instance) != VK_SUCCESS)
-            std::clog << "ERROR: Vulkan can't create instance\n";
+        if (vkCreateInstance(&instance_create_info, nullptr, &_instance) == VK_SUCCESS)
+            std::cout << "A Vulkan instance was created.\n";
+        else
+            std::clog << "ERROR: Vulkan can't create an instance.\n";
     }
 
     void Fear::run() {

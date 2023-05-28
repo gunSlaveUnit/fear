@@ -107,14 +107,31 @@ namespace fear {
         ufast32 physical_devices_count{0};
         vkEnumeratePhysicalDevices(_instance, &physical_devices_count, nullptr);
 
+        if (!physical_devices_count)
+            std::clog << "ERROR: Failed to find a physical GPU device with Vulkan support\n";
+
         std::vector<VkPhysicalDevice> physical_devices{physical_devices_count};
         vkEnumeratePhysicalDevices(_instance, &physical_devices_count, physical_devices.data());
 
         std::cout << "Number of found physical devices: " << physical_devices_count << ".\n";
         // TODO: I want to display a list of devices
 
+        for (const auto &device: physical_devices)
+            if (_is_physical_device_suitable(device)) {
+                _physical_device = device;
+                break;
+            }
+
+        if (_physical_device == VK_NULL_HANDLE)
+            std::clog << "ERROR: Failed to find a suitable GPU\n";
+    }
+
+    bool Fear::_is_physical_device_suitable(const VkPhysicalDevice &candidate) {
         // TODO: We need a normal choice of device based on performance, features and other things
-        _physical_device = physical_devices[0];
+
+        _queue_family_indices.find(candidate);
+
+        return _queue_family_indices.is_available();
     }
 
     void Fear::run() {

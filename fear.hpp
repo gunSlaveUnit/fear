@@ -14,6 +14,7 @@
 #include <GLFW/glfw3.h>
 
 #include "types.h"
+#include "queue_family_indices.hpp"
 
 namespace fear {
     class Fear {
@@ -32,9 +33,11 @@ namespace fear {
 
         bool _check_validation_layers_support();
 
-        std::vector<const char*> get_required_extensions() const;
+        [[nodiscard]] std::vector<const char*> get_required_extensions() const;
 
         void _pick_physical_device();
+
+        bool _is_physical_device_suitable(const VkPhysicalDevice &candidate);
 
 #ifdef NDEBUG
         const bool ENABLE_VALIDATION_LAYERS = false;
@@ -49,6 +52,7 @@ namespace fear {
         GLFWwindow *_window;
         VkInstance _instance;
         VkPhysicalDevice _physical_device;
+        QueueFamilyIndices _queue_family_indices;
     };
 }
 

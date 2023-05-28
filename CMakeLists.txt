@@ -17,6 +17,7 @@ add_executable(${PROJECT_NAME}
         main.cpp
         fear.cpp fear.hpp
         types.h
+        queue_family_indices.hpp queue_family_indices.cpp
         )
 
 add_subdirectory(${EXTERNAL_LIBS_DIR}/GLFW)

@@ -36,17 +36,13 @@ namespace fear {
                 .apiVersion = VK_VERSION_1_3
         };
 
-        ufast32 glfw_extensions_count{0};
-        const char **glfw_extension_names = glfwGetRequiredInstanceExtensions(&glfw_extensions_count);
-        std::cout << "GLFW required instance extensions - " << glfw_extensions_count << ":\n";
-        for (ufast32 i = 0; i < glfw_extensions_count; ++i)
-            std::cout << "\t- " << glfw_extension_names[i] << ";\n";
+        auto extensions = get_required_extensions();
 
         VkInstanceCreateInfo instance_create_info{};
         instance_create_info.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
         instance_create_info.pApplicationInfo = &application_info;
-        instance_create_info.enabledExtensionCount = glfw_extensions_count;
-        instance_create_info.ppEnabledExtensionNames = glfw_extension_names;
+        instance_create_info.enabledExtensionCount = static_cast<ufast32>(extensions.size());
+        instance_create_info.ppEnabledExtensionNames = extensions.data();
 
         if (ENABLE_VALIDATION_LAYERS) {
             instance_create_info.enabledLayerCount = static_cast<ufast32>(VALIDATION_LAYERS.size());
@@ -89,6 +85,22 @@ namespace fear {
         }
 
         return true;
+    }
+
+    std::vector<const char*> Fear::get_required_extensions() const {
+        ufast32 glfw_extensions_count{0};
+        const char **glfw_extension_names = glfwGetRequiredInstanceExtensions(&glfw_extensions_count);
+
+        std::cout << "GLFW required instance extensions - " << glfw_extensions_count << ":\n";
+        for (ufast32 i = 0; i < glfw_extensions_count; ++i)
+            std::cout << "\t- " << glfw_extension_names[i] << ";\n";
+
+        std::vector<const char*> extensions(glfw_extension_names, glfw_extension_names + glfw_extensions_count);
+
+        if (ENABLE_VALIDATION_LAYERS)
+            extensions.emplace_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
+
+        return extensions;
     }
 
     void Fear::_pick_physical_device() {

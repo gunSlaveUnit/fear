@@ -32,6 +32,8 @@ namespace fear {
 
         bool _check_validation_layers_support();
 
+        std::vector<const char*> get_required_extensions() const;
+
         void _pick_physical_device();
 
 #ifdef NDEBUG

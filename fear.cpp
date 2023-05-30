@@ -146,6 +146,7 @@ namespace fear {
     void Fear::_create_logical_device() {
         std::set<ufast32> unique_queue_families = {
                 _queue_family_indices.graphics_family.value(),
+                _queue_family_indices.present_surface_family.value(),
         };
 
         float queue_priority{1.0f};
@@ -181,7 +182,10 @@ namespace fear {
         else
             std::clog << "ERROR: Vulkan failed to create a logical device.\n";
 
-        vkGetDeviceQueue(_logical_device, _queue_family_indices.graphics_family.value(), 0, &_graphics_queue);
+        vkGetDeviceQueue(_logical_device, _queue_family_indices.graphics_family.value(), 0,
+                         &_graphics_queue);
+        vkGetDeviceQueue(_logical_device, _queue_family_indices.present_surface_family.value(), 0,
+                         &_present_surface_queue);
     }
 
     void Fear::run() {

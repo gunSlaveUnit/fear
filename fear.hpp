@@ -61,6 +61,7 @@ namespace fear {
         QueueFamilyIndices _queue_family_indices;
         VkDevice _logical_device;
         VkQueue _graphics_queue;
+        VkQueue _present_surface_queue;
     };
 }
 

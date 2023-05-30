@@ -9,6 +9,7 @@ namespace fear {
         glfwInit();
         _init_window();
         _create_instance();
+        _create_surface();
         _pick_physical_device();
         _create_logical_device();
     }
@@ -104,6 +105,13 @@ namespace fear {
         return extensions;
     }
 
+    void Fear::_create_surface() {
+        if (glfwCreateWindowSurface(_instance, _window, nullptr, &_surface) == VK_SUCCESS)
+            std::cout << "A window surface was created.\n";
+        else
+            std::clog << "ERROR: GLFW can't create a surface.\n";
+    }
+
     void Fear::_pick_physical_device() {
         ufast32 physical_devices_count{0};
         vkEnumeratePhysicalDevices(_instance, &physical_devices_count, nullptr);
@@ -184,6 +192,7 @@ namespace fear {
 
     void Fear::terminate() {
         vkDestroyDevice(_logical_device, nullptr);
+        vkDestroySurfaceKHR(_instance, _surface, nullptr);
         vkDestroyInstance(_instance, nullptr);
         glfwDestroyWindow(_window);
         glfwTerminate();

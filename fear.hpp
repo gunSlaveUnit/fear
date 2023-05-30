@@ -36,6 +36,8 @@ namespace fear {
 
         [[nodiscard]] std::vector<const char*> get_required_extensions() const;
 
+        void _create_surface();
+
         void _pick_physical_device();
 
         bool _is_physical_device_suitable(const VkPhysicalDevice &candidate);
@@ -54,6 +56,7 @@ namespace fear {
 
         GLFWwindow *_window;
         VkInstance _instance;
+        VkSurfaceKHR _surface;
         VkPhysicalDevice _physical_device;
         QueueFamilyIndices _queue_family_indices;
         VkDevice _logical_device;

@@ -183,6 +183,7 @@ namespace fear {
     }
 
     void Fear::terminate() {
+        vkDestroyDevice(_logical_device, nullptr);
         vkDestroyInstance(_instance, nullptr);
         glfwDestroyWindow(_window);
         glfwTerminate();

@@ -10,6 +10,7 @@ namespace fear {
         _init_window();
         _create_instance();
         _pick_physical_device();
+        _create_logical_device();
     }
 
     void Fear::_init_window() {
@@ -87,7 +88,7 @@ namespace fear {
         return true;
     }
 
-    std::vector<const char*> Fear::get_required_extensions() const {
+    std::vector<const char *> Fear::get_required_extensions() const {
         ufast32 glfw_extensions_count{0};
         const char **glfw_extension_names = glfwGetRequiredInstanceExtensions(&glfw_extensions_count);
 
@@ -95,7 +96,7 @@ namespace fear {
         for (ufast32 i = 0; i < glfw_extensions_count; ++i)
             std::cout << "\t- " << glfw_extension_names[i] << ";\n";
 
-        std::vector<const char*> extensions(glfw_extension_names, glfw_extension_names + glfw_extensions_count);
+        std::vector<const char *> extensions(glfw_extension_names, glfw_extension_names + glfw_extensions_count);
 
         if (ENABLE_VALIDATION_LAYERS)
             extensions.emplace_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
@@ -132,6 +133,47 @@ namespace fear {
         _queue_family_indices.find(candidate);
 
         return _queue_family_indices.is_available();
+    }
+
+    void Fear::_create_logical_device() {
+        std::set<ufast32> unique_queue_families = {
+                _queue_family_indices.graphics_family.value(),
+        };
+
+        float queue_priority{1.0f};
+        std::vector<VkDeviceQueueCreateInfo> queue_create_infos;
+        for (const auto &queue_family_index: unique_queue_families) {
+            VkDeviceQueueCreateInfo queue_create_info{
+                    .sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO,
+                    .pNext = nullptr,
+                    .queueFamilyIndex = queue_family_index,
+                    .queueCount = 1,
+                    .pQueuePriorities = &queue_priority
+            };
+
+            queue_create_infos.push_back(queue_create_info);
+        }
+
+        VkDeviceCreateInfo device_create_info{};
+        device_create_info.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
+        device_create_info.queueCreateInfoCount = static_cast<ufast32>(queue_create_infos.size());
+        device_create_info.pQueueCreateInfos = queue_create_infos.data();
+
+        if (ENABLE_VALIDATION_LAYERS) {
+            device_create_info.enabledLayerCount = static_cast<ufast32>(VALIDATION_LAYERS.size());
+            device_create_info.ppEnabledLayerNames = VALIDATION_LAYERS.data();
+        }
+
+        if (vkCreateDevice(
+                _physical_device,
+                &device_create_info,
+                nullptr,
+                &_logical_device) == VK_SUCCESS)
+            std::cout << "A logical device was created.\n";
+        else
+            std::clog << "ERROR: Vulkan failed to create a logical device.\n";
+
+        vkGetDeviceQueue(_logical_device, _queue_family_indices.graphics_family.value(), 0, &_graphics_queue);
     }
 
     void Fear::run() {

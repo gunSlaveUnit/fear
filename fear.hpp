@@ -10,6 +10,7 @@
 #include <iostream>
 #include <vector>
 #include <cstring>
+#include <set>
 
 #include <GLFW/glfw3.h>
 
@@ -39,6 +40,8 @@ namespace fear {
 
         bool _is_physical_device_suitable(const VkPhysicalDevice &candidate);
 
+        void _create_logical_device();
+
 #ifdef NDEBUG
         const bool ENABLE_VALIDATION_LAYERS = false;
 #else
@@ -53,6 +56,8 @@ namespace fear {
         VkInstance _instance;
         VkPhysicalDevice _physical_device;
         QueueFamilyIndices _queue_family_indices;
+        VkDevice _logical_device;
+        VkQueue _graphics_queue;
     };
 }
 

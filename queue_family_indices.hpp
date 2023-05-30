@@ -23,7 +23,7 @@ namespace fear {
         /*
          * Finds queue families that support the required operations.
          * */
-        void find(const VkPhysicalDevice &physical_device);
+        void find(const VkPhysicalDevice &physical_device, const VkSurfaceKHR &surface);
 
         /*
         * Check indexes of all requested queues have a value.

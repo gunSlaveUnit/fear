@@ -138,7 +138,7 @@ namespace fear {
     bool Fear::_is_physical_device_suitable(const VkPhysicalDevice &candidate) {
         // TODO: We need a normal choice of device based on performance, features and other things
 
-        _queue_family_indices.find(candidate);
+        _queue_family_indices.find(candidate, _surface);
 
         return _queue_family_indices.is_available();
     }

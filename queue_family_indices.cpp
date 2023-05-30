@@ -30,6 +30,6 @@ namespace fear {
     }
 
     bool QueueFamilyIndices::is_available() const {
-        return graphics_family.has_value();
+        return graphics_family.has_value() && present_surface_family.has_value();
     }
 }

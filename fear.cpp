@@ -182,6 +182,8 @@ namespace fear {
         device_create_info.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
         device_create_info.queueCreateInfoCount = static_cast<ufast32>(queue_create_infos.size());
         device_create_info.pQueueCreateInfos = queue_create_infos.data();
+        device_create_info.enabledExtensionCount = static_cast<ufast32>(DEVICE_EXTENSIONS.size());
+        device_create_info.ppEnabledExtensionNames = DEVICE_EXTENSIONS.data();
 
         if (ENABLE_VALIDATION_LAYERS) {
             device_create_info.enabledLayerCount = static_cast<ufast32>(VALIDATION_LAYERS.size());

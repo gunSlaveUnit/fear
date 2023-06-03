@@ -152,13 +152,11 @@ namespace fear {
         float queue_priority{1.0f};
         std::vector<VkDeviceQueueCreateInfo> queue_create_infos;
         for (const auto &queue_family_index: unique_queue_families) {
-            VkDeviceQueueCreateInfo queue_create_info{
-                    .sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO,
-                    .pNext = nullptr,
-                    .queueFamilyIndex = queue_family_index,
-                    .queueCount = 1,
-                    .pQueuePriorities = &queue_priority
-            };
+            VkDeviceQueueCreateInfo queue_create_info{};
+            queue_create_info.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
+            queue_create_info.queueFamilyIndex = queue_family_index;
+            queue_create_info.queueCount = 1;
+            queue_create_info.pQueuePriorities = &queue_priority;
 
             queue_create_infos.push_back(queue_create_info);
         }

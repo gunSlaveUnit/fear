@@ -42,6 +42,8 @@ namespace fear {
 
         bool _is_physical_device_suitable(const VkPhysicalDevice &candidate);
 
+        bool _check_device_extensions_support(const VkPhysicalDevice &candidate);
+
         void _create_logical_device();
 
 #ifdef NDEBUG
@@ -52,6 +54,9 @@ namespace fear {
         const std::vector<const char *> VALIDATION_LAYERS = {
                 "VK_LAYER_KHRONOS_validation",
                 "VK_LAYER_LUNARG_monitor"
+        };
+        const std::vector<const char *> DEVICE_EXTENSIONS = {
+                VK_KHR_SWAPCHAIN_EXTENSION_NAME
         };
 
         GLFWwindow *_window;

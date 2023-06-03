@@ -140,7 +140,24 @@ namespace fear {
 
         _queue_family_indices.find(candidate, _surface);
 
-        return _queue_family_indices.is_available();
+        auto are_extensions_supported{_check_device_extensions_support(candidate)};
+
+        return _queue_family_indices.is_available() && are_extensions_supported;
+    }
+
+    bool Fear::_check_device_extensions_support(const VkPhysicalDevice &candidate) {
+        ufast32 extensions_count;
+        vkEnumerateDeviceExtensionProperties(candidate, nullptr, &extensions_count, nullptr);
+
+        std::vector<VkExtensionProperties> available_extensions(extensions_count);
+        vkEnumerateDeviceExtensionProperties(candidate, nullptr, &extensions_count, available_extensions.data());
+
+        std::set<std::string> required_extensions(DEVICE_EXTENSIONS.begin(), DEVICE_EXTENSIONS.end());
+
+        for (const auto &extension: available_extensions)
+            required_extensions.erase(extension.extensionName);
+
+        return required_extensions.empty();
     }
 
     void Fear::_create_logical_device() {
